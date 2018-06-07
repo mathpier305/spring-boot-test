@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: spring-boot-test
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: math305x
+Implementation-Vendor-Id: com.matt.spring
+Build-Jdk: 1.8.0_171
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
