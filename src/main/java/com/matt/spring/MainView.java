@@ -9,6 +9,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickEvent;
@@ -22,11 +23,20 @@ public class MainView extends UI {
 	protected void init(VaadinRequest request) {
 		HorizontalLayout root = new HorizontalLayout();
 		
-		ObjectProperty<String> property = new ObjectProperty<String>("this is with data binding");
+		String nameValue = "";
+	
 		
-		//Label label = new Label("<b>this is the label<b>", ContentMode.HTML);
-		//Label label = new Label("this the the \nlabel", ContentMode.PREFORMATTED);
+		ObjectProperty<String> property = new ObjectProperty<String>(nameValue);
+		TextField textField = new TextField("Name: ", property);
+		textField.setImmediate(true);
+		//textField.setMaxLength(3);
+		
 		Label label = new Label(property);
+		label.setCaption("Result: ");
+		
+		textField.setValue("setting the value here");
+		
+		root.addComponent(textField);
 		root.addComponent(label);
 		
 		setContent(root);
