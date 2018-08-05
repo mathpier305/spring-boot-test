@@ -3,6 +3,8 @@ package com.matt.spring;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.spring.annotation.SpringUI;
@@ -12,6 +14,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
 import com.vaadin.ui.Button.ClickEvent;
 
 @SpringUI(path="/ui")
@@ -22,19 +25,21 @@ public class MainView extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		HorizontalLayout root = new HorizontalLayout();
-		
-		String nameValue = "";
 	
+		TextField textField = new TextField("character counter");
+		Label label = new Label();
+		label.setImmediate(true);
 		
-		ObjectProperty<String> property = new ObjectProperty<String>(nameValue);
-		TextField textField = new TextField("Name: ", property);
-		textField.setImmediate(true);
-		//textField.setMaxLength(3);
+		textField.addTextChangeListener(new TextChangeListener() {
+			
+			@Override
+			public void textChange(TextChangeEvent event) {
+				int lengthOfText = event.getText().length();
+				label.setValue("Number of Characters : "+lengthOfText);
+			}
+		});
 		
-		Label label = new Label(property);
-		label.setCaption("Result: ");
-		
-		textField.setValue("setting the value here");
+		textField.setTextChangeEventMode(TextChangeEventMode.EAGER);
 		
 		root.addComponent(textField);
 		root.addComponent(label);
