@@ -1,5 +1,7 @@
 package com.matt.spring;
 
+import java.util.Set;
+
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -14,6 +16,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -31,22 +34,24 @@ public class MainView extends UI {
 	protected void init(VaadinRequest request) {
 		HorizontalLayout root = new HorizontalLayout();
 	
-		CheckBox checkbox = new CheckBox("Has Degree");
+		Student s1  = new Student("joe", 22);
+		Student s2 = new Student("Emily", 32);
+		Student s3 = new Student("Adam", 40);
 		
-//		checkbox.addValueChangeListener(new ValueChangeListener() {
-//			
-//			@Override
-//			public void valueChange(ValueChangeEvent event) {
-//				// TODO Auto-generated method stub
-//				System.out.println(checkbox.getValue());
-//				
-//			}
-//		});
+		OptionGroup optionGroup = new OptionGroup("students");
+		optionGroup.setMultiSelect(true);
+		optionGroup.addItem(s1);
+		optionGroup.addItem(s2);
+		optionGroup.addItem(s3);
 		
-		checkbox.addValueChangeListener(event -> {
-			System.out.println(checkbox.getValue() +" with lamdba");
+		optionGroup.addValueChangeListener(event->{
+			Set<Student> students = (Set<Student>)event.getProperty().getValue();
+			for(Student s : students) {
+				System.out.println(s.getAge() +"-"+ s.getName());
+			}
 		});
-		root.addComponent(checkbox);
+	
+		root.addComponent(optionGroup);
 		
 		setContent(root);
 		
