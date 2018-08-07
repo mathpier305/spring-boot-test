@@ -11,6 +11,7 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -27,13 +28,23 @@ public class MainView extends UI {
 	protected void init(VaadinRequest request) {
 		HorizontalLayout root = new HorizontalLayout();
 	
-		TextArea textArea = new TextArea();
-		textArea.setWidth("400px");
-		textArea.setHeight("300px");
-		textArea.setWordwrap(false);
-		textArea.setValue("This is going to be a very long text so it will be wrapped after a nother one");
+		Button button = new Button("Save");
+		button.addClickListener(event ->{
+			Notification.show("Button Clicked... ");
+			System.out.println("Clicked on the button");
+		}); //with Lambda
 		
-		root.addComponent(textArea);
+//		button.addClickListener(new Button.ClickListener() {
+//			
+//			@Override
+//			public void buttonClick(ClickEvent event) {
+//				// TODO Auto-generated method stub
+//				root.addComponent(new Label("clicked on the saved button"));
+//		
+//			}
+//		});//before java 8
+		
+		root.addComponent(button);
 		
 		setContent(root);
 		
