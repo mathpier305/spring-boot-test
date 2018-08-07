@@ -1,16 +1,20 @@
 package com.matt.spring;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.ui.combobox.FilteringMode;
+import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
@@ -26,6 +30,7 @@ import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Grid;
 
 @SpringUI(path="/ui")
 @Title("This is the title")
@@ -36,17 +41,31 @@ public class MainView extends UI {
 	protected void init(VaadinRequest request) {
 		HorizontalLayout root = new HorizontalLayout();
 		
-		ComboBox comboBox = new ComboBox("Names");
+		List<Student> students = new ArrayList<>();
+		students.add(new Student("Joe Smith", 28));
+		students.add(new Student("John Doe", 22));
+		students.add(new Student("Adam Lopez", 32));
 		
-		comboBox.setFilteringMode(FilteringMode.STARTSWITH);
+		BeanItemContainer<Student> container = new BeanItemContainer<>(Student.class, students);
 		
-		comboBox.addItem("Adam Smith");
-		comboBox.addItem("Albert Joe");
-		comboBox.addItem("Hieghener");
-		comboBox.addItem("Jerry Springer");
-		comboBox.addItem("Ali Muhamed");
+		
+		Grid grid = new Grid(container);
+		//grid.addColumn("NAME", String.class);
+		//grid.addColumn("AGE", Integer.class);
+		//grid.addRow("Joe Smith", 22);
+		//grid.addRow("Joe Smith", 22);
+		//grid.addRow("Joe Smith", 22);
+
+		
+		
+		grid.setColumnOrder("name", "age");
+		
+		grid.setHeightMode(HeightMode.ROW);
+		grid.setHeightByRows(students.size());
+		
+		
 	
-		root.addComponent(comboBox);
+		root.addComponent(grid);
 		
 		setContent(root);
 		
