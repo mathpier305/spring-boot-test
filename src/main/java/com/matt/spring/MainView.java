@@ -2,6 +2,8 @@ package com.matt.spring;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
@@ -18,6 +20,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.CheckBox;
 
 @SpringUI(path="/ui")
 @Title("This is the title")
@@ -28,23 +31,22 @@ public class MainView extends UI {
 	protected void init(VaadinRequest request) {
 		HorizontalLayout root = new HorizontalLayout();
 	
-		Button button = new Button("Save");
-		button.addClickListener(event ->{
-			Notification.show("Button Clicked... ");
-			System.out.println("Clicked on the button");
-		}); //with Lambda
+		CheckBox checkbox = new CheckBox("Has Degree");
 		
-//		button.addClickListener(new Button.ClickListener() {
+//		checkbox.addValueChangeListener(new ValueChangeListener() {
 //			
 //			@Override
-//			public void buttonClick(ClickEvent event) {
+//			public void valueChange(ValueChangeEvent event) {
 //				// TODO Auto-generated method stub
-//				root.addComponent(new Label("clicked on the saved button"));
-//		
+//				System.out.println(checkbox.getValue());
+//				
 //			}
-//		});//before java 8
+//		});
 		
-		root.addComponent(button);
+		checkbox.addValueChangeListener(event -> {
+			System.out.println(checkbox.getValue() +" with lamdba");
+		});
+		root.addComponent(checkbox);
 		
 		setContent(root);
 		
