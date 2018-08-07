@@ -10,6 +10,7 @@ import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
@@ -24,6 +25,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.ComboBox;
 
 @SpringUI(path="/ui")
 @Title("This is the title")
@@ -33,25 +35,18 @@ public class MainView extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		HorizontalLayout root = new HorizontalLayout();
-	
-		Student s1  = new Student("joe", 22);
-		Student s2 = new Student("Emily", 32);
-		Student s3 = new Student("Adam", 40);
 		
-		OptionGroup optionGroup = new OptionGroup("students");
-		optionGroup.setMultiSelect(true);
-		optionGroup.addItem(s1);
-		optionGroup.addItem(s2);
-		optionGroup.addItem(s3);
+		ComboBox comboBox = new ComboBox("Names");
 		
-		optionGroup.addValueChangeListener(event->{
-			Set<Student> students = (Set<Student>)event.getProperty().getValue();
-			for(Student s : students) {
-				System.out.println(s.getAge() +"-"+ s.getName());
-			}
-		});
+		comboBox.setFilteringMode(FilteringMode.STARTSWITH);
+		
+		comboBox.addItem("Adam Smith");
+		comboBox.addItem("Albert Joe");
+		comboBox.addItem("Hieghener");
+		comboBox.addItem("Jerry Springer");
+		comboBox.addItem("Ali Muhamed");
 	
-		root.addComponent(optionGroup);
+		root.addComponent(comboBox);
 		
 		setContent(root);
 		
