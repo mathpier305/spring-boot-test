@@ -46,22 +46,22 @@ public class MainView extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		HorizontalLayout root = new HorizontalLayout();
-		root.setWidth("100%");
 		
-		TabSheet tabs = new TabSheet();
-		tabs.setWidth("50%");
+		root.setWidth("50%");
 		
-		HorizontalLayout layout = new HorizontalLayout();
-		layout.addComponent(new Label("This is just the Layout 1"));
+		Button b1 = new Button("First");
+		b1.setWidth("100%");
 		
-		HorizontalLayout layout2 = new HorizontalLayout();
-		layout2.addComponent(new Label("This is just layout 2"));
+		Button b2 = new Button("Second");
+		b2.setWidth("100%");
 		
-		tabs.addTab(layout, "TAB 1");
-		tabs.addTab(layout2, "TAB 2");
+		root.addComponent(b1);
+		root.addComponent(b2);
+		root.addComponent(new Button("Third"));
 		
-		root.addComponent(tabs);
-		root.setComponentAlignment(tabs, Alignment.TOP_CENTER);
+		root.setExpandRatio(b1, 1);
+		root.setExpandRatio(b2, 1);
+
 		
 		setContent(root);
 		
