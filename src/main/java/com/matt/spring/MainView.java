@@ -24,6 +24,7 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.Tree;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
@@ -44,46 +45,37 @@ public class MainView extends UI {
 	protected void init(VaadinRequest request) {
 		HorizontalLayout root = new HorizontalLayout();
 		
-		List<Student> students = new ArrayList<>();
-		students.add(new Student("Joe Smith", 28));
-		students.add(new Student("John Doe", 22));
-		students.add(new Student("Adam Lopez", 32));
+		Tree menu = new Tree();
 		
-		BeanItemContainer<Student> container = new BeanItemContainer<>(Student.class, students);
+		menu.addItem("Hungary");
+		menu.addItem("Germany");
 		
-		Grid grid = new Grid(container);
-		grid.setSelectionMode(SelectionMode.MULTI);
+		menu.expandItem("Hungary");
+		menu.expandItem("Germany");
 		
+		menu.addItem("Budapest");
+		menu.setChildrenAllowed("Budapest", false);
+		menu.setParent("Budapest", "Hungary");
 		
-		grid.setColumnOrder("name", "age");
+		menu.addItem("Berlin");
+		menu.addItem("Munchen");
+		menu.setChildrenAllowed("Berlin", false);
+		menu.setChildrenAllowed("Munchen", false);
+		menu.setParent("Berlin", "Germany");
+		menu.setParent("Munchen", "Germany");
 		
-		grid.setHeightMode(HeightMode.ROW);
-		grid.setHeightByRows(students.size());
-		
-		Button button = new Button("Remove", new Button.ClickListener() {
+		menu.addValueChangeListener(new ValueChangeListener() {
 			
 			@Override
-			public void buttonClick(ClickEvent event) {
-				//MULTIPLE SELECTION MODEL
-				MultiSelectionModel selectionModel = (MultiSelectionModel)grid.getSelectionModel();
-				for(Object selectedItem: selectionModel.getSelectedRows()) {
-					grid.getContainerDataSource().removeItem(selectedItem);	
-				}
-				
-				grid.getSelectionModel().reset();
-				
-				// SINGLE SELECTION MODE
-//				SingleSelectionModel selectionModl = (SingleSelectionModel)grid.getSelectionModel();
-//				Student selectedStudent = (Student)selectionModl.getSelectedRow();
-//				
-//				grid.getContainerDataSource().removeItem(selectedStudent);
-//				grid.getSelectionModel().reset();
-				
+			public void valueChange(ValueChangeEvent event) {
+				// TODO Auto-generated method stub
+				String location = (String) event.getProperty().getValue();
+				System.out.println(location);
 			}
 		});
-		root.addComponent(grid);
-		root.addComponent(button);
 		
+		
+		root.addComponent(menu);
 		setContent(root);
 		
 	}
