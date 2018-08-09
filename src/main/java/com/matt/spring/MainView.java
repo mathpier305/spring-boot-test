@@ -31,6 +31,9 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.MultiSelectionModel;
+import com.vaadin.ui.Grid.SelectionMode;
+import com.vaadin.ui.Grid.SingleSelectionModel;
 
 @SpringUI(path="/ui")
 @Title("This is the title")
@@ -48,14 +51,8 @@ public class MainView extends UI {
 		
 		BeanItemContainer<Student> container = new BeanItemContainer<>(Student.class, students);
 		
-		
 		Grid grid = new Grid(container);
-		//grid.addColumn("NAME", String.class);
-		//grid.addColumn("AGE", Integer.class);
-		//grid.addRow("Joe Smith", 22);
-		//grid.addRow("Joe Smith", 22);
-		//grid.addRow("Joe Smith", 22);
-
+		grid.setSelectionMode(SelectionMode.MULTI);
 		
 		
 		grid.setColumnOrder("name", "age");
@@ -63,9 +60,29 @@ public class MainView extends UI {
 		grid.setHeightMode(HeightMode.ROW);
 		grid.setHeightByRows(students.size());
 		
-		
-	
+		Button button = new Button("Remove", new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				//MULTIPLE SELECTION MODEL
+				MultiSelectionModel selectionModel = (MultiSelectionModel)grid.getSelectionModel();
+				for(Object selectedItem: selectionModel.getSelectedRows()) {
+					grid.getContainerDataSource().removeItem(selectedItem);	
+				}
+				
+				grid.getSelectionModel().reset();
+				
+				// SINGLE SELECTION MODE
+//				SingleSelectionModel selectionModl = (SingleSelectionModel)grid.getSelectionModel();
+//				Student selectedStudent = (Student)selectionModl.getSelectedRow();
+//				
+//				grid.getContainerDataSource().removeItem(selectedStudent);
+//				grid.getSelectionModel().reset();
+				
+			}
+		});
 		root.addComponent(grid);
+		root.addComponent(button);
 		
 		setContent(root);
 		
