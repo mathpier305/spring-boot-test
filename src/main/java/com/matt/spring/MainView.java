@@ -22,12 +22,14 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
@@ -44,38 +46,23 @@ public class MainView extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		HorizontalLayout root = new HorizontalLayout();
+		root.setWidth("100%");
 		
-		Tree menu = new Tree();
+		TabSheet tabs = new TabSheet();
+		tabs.setWidth("50%");
 		
-		menu.addItem("Hungary");
-		menu.addItem("Germany");
+		HorizontalLayout layout = new HorizontalLayout();
+		layout.addComponent(new Label("This is just the Layout 1"));
 		
-		menu.expandItem("Hungary");
-		menu.expandItem("Germany");
+		HorizontalLayout layout2 = new HorizontalLayout();
+		layout2.addComponent(new Label("This is just layout 2"));
 		
-		menu.addItem("Budapest");
-		menu.setChildrenAllowed("Budapest", false);
-		menu.setParent("Budapest", "Hungary");
+		tabs.addTab(layout, "TAB 1");
+		tabs.addTab(layout2, "TAB 2");
 		
-		menu.addItem("Berlin");
-		menu.addItem("Munchen");
-		menu.setChildrenAllowed("Berlin", false);
-		menu.setChildrenAllowed("Munchen", false);
-		menu.setParent("Berlin", "Germany");
-		menu.setParent("Munchen", "Germany");
+		root.addComponent(tabs);
+		root.setComponentAlignment(tabs, Alignment.TOP_CENTER);
 		
-		menu.addValueChangeListener(new ValueChangeListener() {
-			
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				// TODO Auto-generated method stub
-				String location = (String) event.getProperty().getValue();
-				System.out.println(location);
-			}
-		});
-		
-		
-		root.addComponent(menu);
 		setContent(root);
 		
 	}
