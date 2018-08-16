@@ -12,6 +12,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.ui.combobox.FilteringMode;
 import com.vaadin.shared.ui.grid.HeightMode;
@@ -29,10 +30,12 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.AbstractTextField.TextChangeEventMode;
+import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.MultiSelectionModel;
 import com.vaadin.ui.Grid.SelectionMode;
@@ -45,25 +48,20 @@ public class MainView extends UI {
 
 	@Override
 	protected void init(VaadinRequest request) {
-		HorizontalLayout root = new HorizontalLayout();
 		
-		root.setWidth("50%");
+		FormLayout layout = new FormLayout();
 		
-		Button b1 = new Button("First");
-		b1.setWidth("100%");
+		TextField name = new TextField("Name: ");
+		name.setIcon(FontAwesome.USER);
 		
-		Button b2 = new Button("Second");
-		b2.setWidth("100%");
+		TextField address  = new TextField("Address");
+		address.setIcon(FontAwesome.ROAD);
 		
-		root.addComponent(b1);
-		root.addComponent(b2);
-		root.addComponent(new Button("Third"));
+		layout.addComponent(name);
+		layout.addComponent(address);
 		
-		root.setExpandRatio(b1, 1);
-		root.setExpandRatio(b2, 1);
-
 		
-		setContent(root);
+		setContent(layout);
 		
 	}
 
