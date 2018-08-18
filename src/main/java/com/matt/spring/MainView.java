@@ -8,6 +8,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.Validator;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
@@ -70,6 +71,7 @@ public class MainView extends UI {
 		nameField = new TextField("Name");
 		ageField = new TextField("Age");
 		
+		
 		Person person = new Person();
 		
 		BeanFieldGroup<Person> fieldGroup = new BeanFieldGroup<>(Person.class);
@@ -87,8 +89,7 @@ public class MainView extends UI {
 					fieldGroup.commit();
 					System.out.println(person);
 				} catch (CommitException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					return;
 				}
 				
 			}
