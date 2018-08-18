@@ -23,6 +23,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
@@ -40,6 +42,8 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.MultiSelectionModel;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Grid.SingleSelectionModel;
+import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.ui.GridLayout;
 
 @SpringUI(path="/ui")
 @Title("This is the title")
@@ -49,19 +53,36 @@ public class MainView extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		
-		FormLayout layout = new FormLayout();
+		VerticalLayout root = new VerticalLayout();
 		
-		TextField name = new TextField("Name: ");
-		name.setIcon(FontAwesome.USER);
+		root.setMargin(true);
+		root.setHeight("100%");
 		
-		TextField address  = new TextField("Address");
-		address.setIcon(FontAwesome.ROAD);
+		Panel panel = new Panel("Login");
+		panel.setSizeUndefined();
 		
-		layout.addComponent(name);
-		layout.addComponent(address);
+		root.addComponent(panel);
+		root.setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
+		
+		FormLayout loginLayout = new FormLayout();
+		loginLayout.addComponent(new TextField("Username"));
+		loginLayout.addComponent(new PasswordField("Password: "));
+		
+		Button loginButton = new Button("Login");
+		loginButton.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+		
+		Button signInButton = new Button("Sign Up");
+		signInButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
+		
+		loginLayout.addComponent(new HorizontalLayout(loginButton, signInButton));
+		loginLayout.setWidthUndefined();
+		loginLayout.setMargin(true);
+		
+		panel.setContent(loginLayout);
 		
 		
-		setContent(layout);
+		
+		setContent(root);
 		
 	}
 
