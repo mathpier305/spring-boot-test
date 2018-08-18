@@ -17,6 +17,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.ui.combobox.FilteringMode;
@@ -54,53 +55,34 @@ import com.vaadin.ui.GridLayout;
 @Title("This is the title")
 @Theme("valo")
 public class MainView extends UI {
-	
-	@PropertyId("name")
-	private TextField nameField;
-	
-	@PropertyId("age")
-	private TextField ageField;
-
 	@Override
 	protected void init(VaadinRequest request) {
 		
 		VerticalLayout root = new VerticalLayout();
-		root.setMargin(true);
-		root.setHeight("100%");
 		
-		nameField = new TextField("Name");
-		ageField = new TextField("Age");
+		Button firstViewButton = new Button("Navigate to first View");
+		Button secondViewButton = new Button("Navigate to Second View");
 		
+		Panel viewContainer = new Panel();
+		Navigator navigator = new Navigator(this, viewContainer);
 		
-		Person person = new Person();
+		navigator.addView(FirstView.Name, new FirstView());
+		navigator.addView(SecondView.Name, new SecondView());
+		navigator.addView("",new FirstView());
 		
-		BeanFieldGroup<Person> fieldGroup = new BeanFieldGroup<>(Person.class);
-		fieldGroup.bind(nameField, "name");
-		fieldGroup.bind(ageField, "age");
-		fieldGroup.setItemDataSource(person);
+		root.addComponent(new HorizontalLayout(firstViewButton, secondViewButton));
+		root.addComponent(viewContainer);
 		
-		Button button = new Button("Save");
-		button.addClickListener(new Button.ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				try {
-					fieldGroup.commit();
-					System.out.println(person);
-				} catch (CommitException e) {
-					return;
-				}
-				
-			}
+		navigator.navigateTo(FirstView.Name);
+		
+		firstViewButton.addClickListener(event ->{
+			navigator.navigateTo(FirstView.Name);
 		});
 		
-		root.addComponent(nameField);
-		root.addComponent(ageField);
-		root.addComponent(button);
-		
+		secondViewButton.addClickListener(event -> navigator.navigateTo(SecondView.Name));
 		
 		setContent(root);
+		
 	}
 
 }
