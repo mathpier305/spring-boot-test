@@ -8,6 +8,10 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.data.fieldgroup.PropertyId;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
@@ -49,41 +53,53 @@ import com.vaadin.ui.GridLayout;
 @Title("This is the title")
 @Theme("valo")
 public class MainView extends UI {
+	
+	@PropertyId("name")
+	private TextField nameField;
+	
+	@PropertyId("age")
+	private TextField ageField;
 
 	@Override
 	protected void init(VaadinRequest request) {
 		
 		VerticalLayout root = new VerticalLayout();
-		
 		root.setMargin(true);
 		root.setHeight("100%");
 		
-		Panel panel = new Panel("Login");
-		panel.setSizeUndefined();
+		nameField = new TextField("Name");
+		ageField = new TextField("Age");
 		
-		root.addComponent(panel);
-		root.setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
+		Person person = new Person();
 		
-		FormLayout loginLayout = new FormLayout();
-		loginLayout.addComponent(new TextField("Username"));
-		loginLayout.addComponent(new PasswordField("Password: "));
+		BeanFieldGroup<Person> fieldGroup = new BeanFieldGroup<>(Person.class);
+		fieldGroup.bind(nameField, "name");
+		fieldGroup.bind(ageField, "age");
+		fieldGroup.setItemDataSource(person);
 		
-		Button loginButton = new Button("Login");
-		loginButton.setStyleName(ValoTheme.BUTTON_FRIENDLY);
+		Button button = new Button("Save");
+		button.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				try {
+					fieldGroup.commit();
+					System.out.println(person);
+				} catch (CommitException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
 		
-		Button signInButton = new Button("Sign Up");
-		signInButton.setStyleName(ValoTheme.BUTTON_PRIMARY);
-		
-		loginLayout.addComponent(new HorizontalLayout(loginButton, signInButton));
-		loginLayout.setWidthUndefined();
-		loginLayout.setMargin(true);
-		
-		panel.setContent(loginLayout);
-		
+		root.addComponent(nameField);
+		root.addComponent(ageField);
+		root.addComponent(button);
 		
 		
 		setContent(root);
-		
 	}
 
 }
